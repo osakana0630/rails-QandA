@@ -1,6 +1,12 @@
 class QuestionsController < ApplicationController
+  before_action :set_question, only: [:show, :edit, :update, :destroy]
   def index
     @questions = Question.all
+  end
+
+  def show
+    # @question = Question.find(params[:id])
+    @answer = Answer.new
   end
 
   def new
@@ -10,41 +16,40 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
     if @question.save
-      redirect_to root_path, notice: "Success!"
+      redirect_to root_path, notice: 'Success!'
     else
-      flash[:alert] = "Save error!"
+      flash[:alert] = 'Save error!'
       render :new
     end
   end
 
-  def show
-    @question = Question.find(params[:id])
-    @answer = Answer.new
-  end
-
   def edit
-    @question = Question.find(params[:id])
+    # @question = Question.find(params[:id])
   end
 
   def update
-    @question = Question.find(params[:id])
+    # @question = Question.find(params[:id])
     if @question.update(question_params)
-      redirect_to root_path, notice: "Success!"
+      redirect_to root_path, notice: 'Success!'
     else
-      flash[:alert] = "Save error!"
+      flash[:alert] = 'Save error!'
       render :edit
     end
   end
 
   def destroy
-    @qustion = Question.find(params[:id])
-    @qustion.destroy
-    redirect_to root_path, notice: "Success!"
+    # @question = Question.find(params[:id])
+    @question.destroy
+    redirect_to root_path, notice: 'Success!'
   end
 
   private
+  def set_question
+    @question = Question.find(params[:id])
+  end
 
   def question_params
     params.require(:question).permit(:name, :title, :content)
   end
+
 end
